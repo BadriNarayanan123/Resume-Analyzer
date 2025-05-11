@@ -2,6 +2,8 @@ import streamlit as st
 from analyzer.parser import extract_text_from_pdf
 from analyzer.gemini import get_gemini_response
 from dotenv import load_dotenv
+import google.generativeai as genai
+
 import os
 
 load_dotenv()
@@ -24,3 +26,7 @@ if st.button("Analyze"):
     else:
         st.warning("Please upload a resume and enter a job description.")
 
+api_key = os.getenv("GOOGLE_API_KEY")
+if not api_key:
+    raise Exception("GOOGLE_API_KEY not found in environment")
+genai.configure(api_key=api_key)
